@@ -36,6 +36,7 @@ ui = shinyUI(fluidPage(
         br(),
         actionButton("addGwasTrackButton", "Add GWAS Track"),
         actionButton("addBamViaHttpButton", "BAM from URL"),
+        actionButton("addBigwigViaHttpButton", "Bigwig from URL"),
         actionButton("addBamLocalFileButton", "BAM local data"),
         actionButton("addCramViaHttpButton", "CRAM from URL"),
         actionButton("removeUserTracksButton", "Remove User Tracks"),
@@ -94,6 +95,13 @@ server = function(input, output, session) {
       indexURL <- sprintf("%s/%s", base.url, "HG02450.mapped.ILLUMINA.bwa.ACB.low_coverage.20120522.bam.bai")
       loadBamTrackFromURL(session, id="igvShiny_0",trackName="1kg.bam", bamURL=url, indexURL=indexURL)
       })
+   
+   observeEvent(input$addBigwigViaHttpButton, {
+      printf("---- addBigwigViaHttpButton")
+      showGenomicRegion(session, id="igvShiny_0", "chr5:88,733,959-88,761,606")
+      url <- "https://www.encodeproject.org/files/ENCFF001RSL/@@download/ENCFF001RSL.bigWig"
+      loadBigWigTrack(session, id="igvShiny_0",trackName="Test.bw", bigwigURL=url, color="blue", autoscale=TRUE)
+   })
 
    observeEvent(input$addBamLocalFileButton, {
       printf("---- addBamLocalFileButton")

@@ -1,0 +1,7 @@
+dependencies:
+  - name: igv
+    version: 1.2.3
+    src: htmlwidgets
+    script: ./lib/igv.js
+
+

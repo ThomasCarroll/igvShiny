@@ -494,6 +494,59 @@ loadGwasTrack <- function(session, id, trackName, tbl.gwas, ymin = 0, ymax = 35,
    session$sendCustomMessage("loadGwasTrack", message)
 
 } # loadGwasTrack
+
+
+
+#' load a bam track which, with index, is served up by http
+#'
+#' @description
+#'
+#' @rdname loadBigWigTrack
+#' @aliases loadBigWigTrack
+#'
+#' @param session an environment or list, provided and managed by shiny
+#' @param id character string, the html element id of this widget instance
+#' @param trackName character string
+#' @param bigwigURL character string http url for the bigwig file, typically very large
+#' @param color character string, a legal CSS color, or "random", "gray" by default
+#' @param trackHeight an integer, 30 (pixels) by default
+#' @param autoscale logical
+#' @param min numeric, consulted when autoscale is FALSE
+#' @param max numeric, consulted when autoscale is FALSE
+#' @param deleteTracksOfSameName logical, default TRUE
+#' @param displayMode character string, possible values are "EXPANDED" (default),
+#'   "SQUISHED" or "COLLAPSED"
+#'
+#' @return
+#' nothing
+#'
+#' @export
+loadBigWigTrack <- function(session, id, trackName, bigwigURL, color="gray", trackHeight=30,
+                            autoscale, min=NA_real_, max=NA_real_,deleteTracksOfSameName=TRUE,
+                                displayMode = "EXPANDED")
+{
+   if(deleteTracksOfSameName){
+      removeTracksByName(session, id, trackName);
+   }
+   # var elementID = message.elementID;
+   # var igvBrowser = document.getElementById(elementID).igvBrowser;
+   # var trackName = message.trackName;
+   # var file = message.file;
+   # var color = message.color;
+   # var trackHeight = message.trackHeight;
+   # var autoscale = message.autoscale;
+   # var min = message.min;
+   # var max = message.max;
+   
+   
+   state[["userAddedTracks"]] <- unique(c(state[["userAddedTracks"]], trackName))
+   message <- list(elementID=id,trackName=trackName, file=bigwigURL,color=color,
+                   trackHeight=trackHeight,autoscale=autoscale,min=min,max=max)
+   printf("--- about to send message, loadBigWigTrack")
+   session$sendCustomMessage("loadBigWigTrack", message)
+   
+} # loadBamTrackFromURL
+
 #------------------------------------------------------------------------------------------------------------------------
 #' load a bam track which, with index, is served up by http
 #'

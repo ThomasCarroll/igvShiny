@@ -393,6 +393,42 @@ Shiny.addCustomMessageHandler("loadBedGraphTrack",
       }
 
 );
+
+//------------------------------------------------------------------------------------------------------------------------
+Shiny.addCustomMessageHandler("loadBigWigTrack",
+
+   function(message){
+      //console.log("=== loadBedGraphTrack");
+      //console.log(message)
+      var elementID = message.elementID;
+      var igvBrowser = document.getElementById(elementID).igvBrowser;
+      var trackName = message.trackName;
+      var file = message.file;
+      var color = message.color;
+      var trackHeight = message.trackHeight;
+      var autoscale = message.autoscale;
+      var min = message.min;
+      var max = message.max;
+      console.log(file)
+
+      var config = {format: "bigwig",
+                    name: trackName,
+                    url: file,
+                    type: "wig",
+                    order: Number.MAX_VALUE,
+                    filename: file,
+                    indexed: false,
+                    displayMode: "EXPANDED",
+                    color: color,
+                    height: trackHeight,
+                    autoscale: autoscale,
+                    min: min,
+                    max: max
+                    };
+      igvBrowser.loadTrack(config);
+      }
+
+);
 //------------------------------------------------------------------------------------------------------------------------
 Shiny.addCustomMessageHandler("loadSegTrack",
 
